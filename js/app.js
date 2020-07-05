@@ -1,3 +1,4 @@
+//Iniciar modulo calculadora
 var calculadora =
 {
 	visor: document.getElementById("display"),
@@ -10,34 +11,40 @@ var calculadora =
 	auxTeclaIgual: false,
 
 	init: (function()
-  {
-		this.asignarEventosFormatoBotones(".tecla");
-		this.asignarEventosaFuncion();
-	}),
+  	{
+			this.asignarEventosFormatoBotones(".tecla");
+			this.asignarEventosaFuncion();
+		}),
 
 	//Eventos de formato de botones
 
-	asignarEventosFormatoBotones: function(selector){
+	asignarEventosFormatoBotones: function(selector)
+	{
 		var x = document.querySelectorAll(selector);
-		for (var i = 0; i<x.length;i++) {
+		for (var i = 0; i<x.length;i++)
+		{
 			x[i].onclick = this.eventoAchicaBoton;
 			x[i].onmouseout = this.eventoVuelveBoton;
 		};
 	},
 
-	eventoAchicaBoton: function(event){
+	eventoAchicaBoton: function(event)
+	{
 		calculadora.AchicaBoton(event.target);
 	},
 
-	eventoVuelveBoton: function(event){
+	eventoVuelveBoton: function(event)
+	{
 		calculadora.AumentaBoton(event.target);
 	},
 
-	//Formato de botones
+	//funciones de cambio de formato de los botones
 
-	AchicaBoton: function(elemento){
+	AchicaBoton: function(elemento)
+	{
 		var x = elemento.id;
-		if (x=="1" || x=="2" || x=="3" || x=="0" || x=="igual" || x=="punto" ) {
+		if (x=="1" || x=="2" || x=="3" || x=="0" || x=="igual" || x=="punto" )
+		{
 			elemento.style.width = "28%";
 			elemento.style.height = "62px";
 		} else if(x=="mas") {
@@ -49,21 +56,28 @@ var calculadora =
 		}
 	},
 
-	AumentaBoton: function(elemento){
+	AumentaBoton: function(elemento)
+	{
 		var x = elemento.id;
-		if (x=="1" || x=="2" || x=="3" || x=="0" || x=="igual" || x=="punto" ) {
+		if (x=="1" || x=="2" || x=="3" || x=="0" || x=="igual" || x=="punto" )
+		{
 			elemento.style.width = "29%";
 			elemento.style.height = "62.91px";
-		} else if(x=="mas") {
+		}
+		else if(x=="mas")
+		{
 			elemento.style.width = "90%";
 			elemento.style.height = "100%";
-		} else {
-		elemento.style.width = "22%";
-		elemento.style.height = "62.91px";
+		}
+		else
+		{
+			elemento.style.width = "22%";
+			elemento.style.height = "62.91px";
 		}
 	},
-
-	asignarEventosaFuncion: function(){
+	//asignacion de funciones javascript a los botones de la calculadora
+	asignarEventosaFuncion: function()
+	{
 		document.getElementById("0").addEventListener("click", function() {calculadora.ingresoNumero("0");});
 		document.getElementById("1").addEventListener("click", function() {calculadora.ingresoNumero("1");});
 		document.getElementById("2").addEventListener("click", function() {calculadora.ingresoNumero("2");});
@@ -84,10 +98,10 @@ var calculadora =
 		document.getElementById("menos").addEventListener("click", function() {calculadora.ingresoOperacion("-");});
 		document.getElementById("mas").addEventListener("click", function() {calculadora.ingresoOperacion("+");});
 	},
-
-	borrarVisor: function(){
-
-	    this.valorVisor = "0";
+	//Funcion de Boton On
+	borrarVisor: function()
+	{
+    this.valorVisor = "0";
 		this.operacion = "";
 		this.primerValor = 0;
 		this.segundoValor = 0;
@@ -98,12 +112,17 @@ var calculadora =
 		this.updateVisor();
 	},
 
-	cambiarSigno: function(){
-		if (this.valorVisor !="0") {
+	cambiarSigno: function()
+	{
+		if (this.valorVisor !="0")
+		{
 			var aux;
-			if (this.valorVisor.charAt(0)=="-") {
+			if (this.valorVisor.charAt(0)=="-")
+			{
 				aux = this.valorVisor.slice(1);
-			}	else {
+			}
+			else
+			{
 				aux = "-" + this.valorVisor;
 			}
 		this.valorVisor = "";
@@ -111,56 +130,71 @@ var calculadora =
 		this.updateVisor();
 		}
 	},
-
-	ingresoDecimal: function(){
-		if (this.valorVisor.indexOf(".")== -1) {
-			if (this.valorVisor == ""){
+	//Funcion Agregar decimales
+	ingresoDecimal: function()
+	{
+		if (this.valorVisor.indexOf(".")== -1)
+		{
+			if (this.valorVisor == "")
+			{
 				this.valorVisor = this.valorVisor + "0.";
-			} else {
+			}
+			else
+			{
 				this.valorVisor = this.valorVisor + ".";
 			}
 			this.updateVisor();
 		}
 	},
-
+	//Funcion obtencio de datos
 	ingresoNumero: function(valor){
 		if (this.valorVisor.length < 8) {
 
-			if (this.valorVisor=="0") {
+			if (this.valorVisor=="0")
+			{
 				this.valorVisor = "";
 				this.valorVisor = this.valorVisor + valor;
-			} else {
+			}
+			else
+			{
 				this.valorVisor = this.valorVisor + valor;
 			}
 		this.updateVisor();
 		}
 	},
-
-	ingresoOperacion: function(oper){
+	//Funcion iniciar operaciones matematicas
+	ingresoOperacion: function(oper)
+	{
 		this.primerValor = parseFloat(this.valorVisor);
 		this.valorVisor = "";
 		this.operacion = oper;
 		this.auxTeclaIgual = false;
 		this.updateVisor();
 	},
-
-	verResultado: function(){
-
-		if(!this.auxTeclaIgual){
+	//Funcion calcular resultados
+	verResultado: function()
+	{
+		if(!this.auxTeclaIgual)
+		{
 			this.segundoValor = parseFloat(this.valorVisor);
 			this.ultimoValor = this.segundoValor;
 			this.realizarOperacion(this.primerValor, this.segundoValor, this.operacion);
 
-		} else {
+		}
+		else
+		{
 			this.realizarOperacion(this.primerValor, this.ultimoValor, this.operacion);
 		}
 
 		this.primerValor = this.resultado;
 		this.valorVisor = "";
 
-		if (this.resultado.toString().length < 9){
+		if (this.resultado.toString().length < 9)
+		{
 			this.valorVisor = this.resultado.toString();
-		} else {
+		}
+		else
+		{
 			this.valorVisor = this.resultado.toString().slice(0,8) + "...";
 		}
 
@@ -169,8 +203,10 @@ var calculadora =
 
 	},
 
-	realizarOperacion: function(primerValor, segundoValor, operacion){
-		switch(operacion){
+	realizarOperacion: function(primerValor, segundoValor, operacion)
+	{
+		switch(operacion)
+		{
 			case "+":
 				this.resultado = eval(primerValor + segundoValor);
 			break;
@@ -187,8 +223,9 @@ var calculadora =
 				this.resultado = eval(Math.sqrt(primerValor));
 		}
 	},
-
-	updateVisor: function(){
+	//Funcion cambiar valor de pantalla de calculadora
+	updateVisor: function()
+	{
 		this.visor.innerHTML = this.valorVisor;
 	}
 
